@@ -1,0 +1,82 @@
+<ng-template #costingModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id='modal-basic-title'>{{mode === 'buy'? 'Add to Purchase List': 'Add to Sales List'}}</h4>
+    <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-window-close" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="costingForm">
+      <div class="form-group my-3">
+        <label class="form-label text-dark" for="info-box">Product Details </label>
+        <app-info-box> {{ getProductDetails() }} </app-info-box>
+      </div>
+
+      <div *ngIf="mode === 'buy'" class="form-group my-3">
+        <label class="form-label text-dark" for="place">Place </label>
+        <div class="input-group">
+          <select id="place" formControlName="place" class="form-select">
+            <option *ngFor="let place of placeService.placeRecord | keyvalue" [value]="place.value.id">
+              {{ place.value.name }}
+            </option>
+          </select>
+
+          <div class="input-group-append">
+            <button class="btn btn-secondary" [ngbTooltip]="'Refresh'" (click)="placeService.getAllPlace()"
+              type="button">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+        </div>
+        <span class="text-monospace text-danger"> {{ util.getValidationError(costingForm, "place") }} </span>
+      </div>
+
+
+      <div class="form-group my-3">
+        <label class="form-label text-dark" for="quantity">Quantity <span *ngIf="mode === 'sell'" type="button" class="border border-info rounded-pill bg-info bg-soft">
+            Available: {{selectedEntity.quantity?.toFixed(2).concat(' ').concat(selectedEntity.unitTxt)}}
+          </span> </label>
+        <input type="number" class="form-control" id="quantity" formControlName="quantity" onlyNumber />
+        <span class="text-monospace text-danger"> {{ util.getValidationError(costingForm, "quantity") }} </span>
+      </div>
+
+      <div class="form-group my-3">
+        <label class="form-label text-dark" for="unit">Unit </label>
+        <select class="form-control" id="unit" formControlName="unit">
+          <option hidden [ngValue]="null"> Please select </option>
+          <option *ngFor="let unit of unitService.unitData.unitList" [value]="unit.id">{{unit.name}}</option>
+        </select>
+        <span class="text-monospace text-danger"> {{ util.getValidationError(costingForm, "unit") }} </span>
+      </div>
+      <div *ngIf="mode === 'buy'" class="form-group my-3">
+        <label class="form-label text-dark" for="cost">Cost/unit (&#2547;)</label>
+        <input type="number" class="form-control" id="cost" formControlName="cost" onlyNumber />
+        <span class="text-monospace text-danger"> {{ util.getValidationError(costingForm, "cost") }} </span>
+      </div>
+      <div *ngIf="mode === 'sell'" class="form-group my-3">
+        <label class="form-label text-dark" for="price">Price/unit (&#2547;) <span 
+            class="mx-1 border border-info rounded-pill bg-info bg-soft"> Cost/{{selectedEntity.unitTxt}}: {{selectedEntity.cost?.toFixed(2)}}
+            (&#2547;)</span>
+          <span *ngIf="getProfitPercentage() >= 0" class="mx-1 border border-success rounded-pill bg-success bg-soft">{{
+            getProfitPercentage().toFixed(2).concat("%") }} <i class="fas fa-arrow-up"></i> </span>
+          <span *ngIf="getProfitPercentage() < 0" class="mx-1 border border-danger rounded-pill bg-danger bg-soft">{{
+            getProfitPercentage().toFixed(2).concat("%") }} <i class="fas fa-arrow-down"></i></span>
+        </label>
+        <input type="number" class="form-control" id="price" formControlName="price" onlyNumber />
+        <span class="text-monospace text-danger"> {{ util.getValidationError(costingForm, "price") }} </span>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button *ngIf="mode === 'buy'" type="button" class="btn btn-primary" ngbAutofocus [disabled]="!costingForm.valid"
+      (click)="addToPurchaseList()">
+      Add
+    </button>
+    <button *ngIf="mode === 'sell'" type="button" class="btn btn-primary" ngbAutofocus [disabled]="!costingForm.valid"
+      (click)="addToSalesList()">
+      Add
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Close</button>
+  </div>
+</ng-template>

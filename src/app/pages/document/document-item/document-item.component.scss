@@ -1,0 +1,20 @@
+$border-color: #061e4767;
+
+
+
+.hover-border {
+  & input:focus {
+    border: 1px solid $border-color !important;
+  }
+  & select:focus {
+    border: 1px solid $border-color !important;
+  }
+}
+
+.hover-border:hover .full-text{
+  border: 1px solid $border-color !important;
+}
+
+.bg-readonly {
+  background-color: #eff2f7;
+}

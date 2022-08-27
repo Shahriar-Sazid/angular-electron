@@ -1,0 +1,84 @@
+<div [ngClass]="['shadow', viewOptions.theme.bg, 'bg-gradient']" style="--bs-bg-opacity: .1;">
+  <div class="d-flex">
+
+    <button [hidden]="!editPermission" type="button" class="invisible close-btn btn btn-sm btn-outline-danger rounded-circle my-auto ms-2">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+
+    <div class="flex-grow-1 p-3">
+      <div class="row">
+        <div class="col-xxl-5">
+          <div class="row large-screen-view">
+            <div *ngIf="display('name')" [ngClass]="['col-'+col('name'), viewOptions.theme.text]">
+              <div><strong>Name</strong></div>
+            </div>
+            <div *ngIf="display('type')" [ngClass]="['col-'+col('type'), viewOptions.theme.text]">
+              <div><strong>Type</strong></div>
+            </div>
+            <div *ngIf="display('brand')" [ngClass]="['col-'+col('brand'), viewOptions.theme.text]">
+              <div><strong>Brand</strong></div>
+            </div>
+            <div *ngIf="display('country')" [ngClass]="['col-'+col('country'), viewOptions.theme.text]">
+              <div><strong>Country</strong></div>
+            </div>
+            <div *ngIf="display('size')" [ngClass]="['col-'+col('size'), viewOptions.theme.text]">
+              <div><strong>Size</strong></div>
+            </div>
+          </div>
+          <div [ngClass]="['small-screen-view', viewOptions.theme.text]">
+            <div>
+              <strong>
+                Product Details
+              </strong>
+            </div>
+          </div>
+        </div>
+        <hr class="small-screen-view my-1" >
+        <br class="small-screen-view">
+        <div class="col-xxl-7">
+          <div class="row">
+            <div [hidden]="!display('place')" [ngClass]="['col-'+ col('place'), viewOptions.theme.text]">
+              <div><strong>Place</strong></div>
+            </div>
+            <div [hidden]="!display('cost')" [ngClass]="['col-'+ col('cost'), viewOptions.theme.text]">
+              <div><strong>Cost/unit</strong></div>
+            </div>
+            <div [hidden]="!display('price')" [ngClass]="['col-'+ col('price'), viewOptions.theme.text]">
+              <div><strong>Price/unit</strong></div>
+            </div>
+            <div [hidden]="!display('quantity')" [ngClass]="['col-'+ col('quantity'), viewOptions.theme.text]">
+              <div class="d-flex">
+                <div class="flex-even">
+                  <div class="text-end"><strong>Quantity and&nbsp; </strong></div>
+                </div>
+                <div class="flex-even">
+                  <div class="form-group">
+                    <div> <strong> Unit</strong> </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div [hidden]="!display('totalCost')" [ngClass]="['col-'+ col('totalCost'), viewOptions.theme.text]">
+              <div>
+                <strong>
+                  Item Total
+                </strong>
+              </div>
+            </div>
+            <div [hidden]="!display('totalPrice')" [ngClass]="['col-'+ col('totalPrice'), viewOptions.theme.text]">
+              <div>
+                <strong>
+                  Item Total
+                </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<hr [ngClass]="['m-0', viewOptions.theme.bg]" style="height: 2px;">

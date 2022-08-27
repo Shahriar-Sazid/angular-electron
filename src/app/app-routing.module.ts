@@ -1,28 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './shared/components';
 
-import { HomeRoutingModule } from './home/home-routing.module';
-import { DetailRoutingModule } from './detail/detail-routing.module';
+import { AuthGuard } from './core/guards/auth.guard';
+import { LayoutComponent } from './layouts/layout.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: '**',
-    component: PageNotFoundComponent
-  }
+  { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
+  // tslint:disable-next-line: max-line-length
+  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule), canActivate: [AuthGuard] },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
-    HomeRoutingModule,
-    DetailRoutingModule
-  ],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top', relativeLinkResolution: 'legacy', onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }
